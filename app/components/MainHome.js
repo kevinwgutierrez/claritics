@@ -1,52 +1,56 @@
-import * as React from "react";
+import { React, Component } from "react";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
-import { AppRegistry, Button, StyleSheet, Text, View } from "react-native";
+import {
+  StatusBar,
+  FlatList,
+  AppRegistry,
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  Icon
+} from "react-native";
+import css from "./Styles";
 import Swiper from "react-native-swiper";
-export default function Home({ navigation }) {
-  return (
-    <Swiper
-      showsButtons={true}
-      style={styles.wrapper}
-      bounces={true}
-      loop={false}
-    >
-      <View style={styles.slide1}>
-        <Text style={styles.text}>Hello Swiper</Text>
-      </View>
-      <View style={styles.slide2}>
-        <Text style={styles.text}>Beautiful</Text>
-      </View>
-      <View style={styles.slide3}>
-        <Text style={styles.text}>And simple</Text>
-      </View>
-    </Swiper>
-  );
-}
-const styles = StyleSheet.create({
-  wrapper: {},
-  slide1: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#9DD6EB"
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#97CAE5"
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#92BBD9"
-  },
-  text: {
-    color: "#fff",
-    fontSize: 30,
-    fontWeight: "bold"
+import axios from "axios";
+// import { data } from "./NewsData";
+export default class Home extends Component {
+  constructor(props) {
+    super(props);
+    this._renderRow = this._renderRow.bind(this);
+    this.renderArticles = this.renderArticles.bind(this);
   }
-});
+  _renderRow = ({ item, index }) => {
+    const author = `${item.author}`;
+    const title = `${item.title}`;
+    const source = `${item.source.name}`;
+    const link = `${item.url}`;
+    let actualRowComponent = (
+      <View style={css.home_screen_list.row}>
+        <View style={css.home_screen_list.row_cell_timeplace}>
+          <Text style={css.home_screen_list.row_time}>{author}</Text>
+          <Text style={css.home_screen_list.row_place}>{title}</Text>
+        </View>
+        <Text style={css.home_screen_list.row_cell_temp}>{source}</Text>
+      </View>
+    );
+    return actualRowComponent;
+  };
+  renderArticles() {
+    return (
+      <View>
+        <StatusBar hidden={false} animated={true} barStyle={"light-content"} />
+        <FlatList
+          style={css.home_screen_list.container}
+          data={this.props.data}
+          renderItem={data => this._renderRow.bind(this, data)}
+          extraData={this.state}
+        />
+      </View>
+    );
+  }
 
-AppRegistry.registerComponent("app", () => App);
+  render() {
+    return <View>{this.renderArticles()}</View>;
+  }
+}

@@ -1,13 +1,13 @@
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import ButtonBasics from "./HomeButtons";
+import HomeButtons from "./HomeButtons";
 import LottieView from "lottie-react-native";
 
 export default function Landing({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={{ color: "#f7cc74", fontSize: 50 }}>Claritics</Text>
+        <Text style={{ color: "#f7cc74", fontSize: 60 }}>claritics</Text>
       </View>
       <View style={styles.lottie}>
         <LottieView
@@ -18,7 +18,7 @@ export default function Landing({ navigation }) {
         />
       </View>
       <View style={styles.button}>
-        <ButtonBasics navigation={navigation} />
+        <HomeButtons navigation={navigation} />
       </View>
     </View>
   );
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   lottie: {
     flex: 2,
-    width: 700,
+    width: 800,
     alignItems: "center",
     justifyContent: "center"
   },
